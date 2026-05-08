@@ -1,0 +1,61 @@
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema({
+    ClerkID: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    firstname: {
+        type: String,
+        required: true
+    },
+    lastname: { 
+        type: String,
+        required: true
+    },
+    username: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    location: {
+        type: String,
+        default: ''
+    },
+    profilePicture: {
+        type: String,
+        default: ''
+    },
+    bio: {
+        type: String,
+        default: '',
+        maxLength: 200
+    },
+    bannerImage: {
+        type: String,
+        default: ''
+    },
+    followers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    following: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
+}, { timestamps: true });
+
+export const User = mongoose.model('User', userSchema);
+
+
+        
