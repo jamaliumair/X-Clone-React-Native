@@ -1,5 +1,7 @@
 import { clerkClient, getAuth } from '@clerk/express';
 import asyncHandler from 'express-async-handler';
+import User from '../models/user.model.js';
+import Notification from '../models/notification.model.js';
 
 export const getUserProfile = asyncHandler(async(req, res) => {
     const { username } = req.params;
@@ -58,9 +60,9 @@ export const followUser = asyncHandler(async (req, res) => {
     const currentUser = await User.findOne({ clerkId: userId });
     const targetUser = await User.findOne({ clerkId: targetUserid });
 
-    if (!user || !targetUser) return res.status(401).json({ error: 'User not Found' });
+    if (!currentUser || !targetUser) return res.status(401).json({ error: 'User not Found' });
 
-    const isFollowing = user.following.includes(targetUser._id);
+    const isFollowing = currentUser.following.includes(targetUser._id);
 
     if (isFollowing) {
         // Unfollow logic
